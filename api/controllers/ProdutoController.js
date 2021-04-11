@@ -2,6 +2,7 @@ const database = require('../models')
 
 class ProdutoController {
     static async findAll(req, res) {
+        console.log("procurando")
         try{
             const allProducts = await database.Produto.findAll()
            
@@ -25,11 +26,14 @@ class ProdutoController {
     }
 
     static async createProduct(req, res) {
-        const newProduct = req.body
+        console.log("criando")
         try{
+            const newProduct = req.body
             const product = await database.Produto.create(newProduct)
-            return RegExp.status(200).json(product)
+            console.log("criou")
+            return res.status(200).send({message: 50})
         }catch(error) {
+            console.log("erro")
             return res.status(500).json(error.message);
         }
     }
