@@ -30,10 +30,8 @@ class ProdutoController {
         try{
             const newProduct = req.body
             const product = await database.Produto.create(newProduct)
-            console.log("criou")
             return res.status(200).send({message: 50})
         }catch(error) {
-            console.log("erro")
             return res.status(500).json(error.message);
         }
     }
