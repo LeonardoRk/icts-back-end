@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT(10)
+        type: Sequelize.BIGINT(11)
       },
       nome: {
         type: Sequelize.STRING
@@ -17,13 +17,15 @@ module.exports = {
       preco: {
         type: Sequelize.DOUBLE
       },
-      data_criacao: {
+      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
       },
-      data_atualizacao: {
+      updatedAt : {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
       }
     });
   },

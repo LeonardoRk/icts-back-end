@@ -10,18 +10,20 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Produto.belongsToMany(models.Compra, { through: 'Compra_Produto', onDelete: 'cascade' });
+      models.Compra.belongsToMany(Produto, { through: 'Compra_Produto', onDelete: 'cascade' });
     }
   };
   Produto.init({
     nome: DataTypes.STRING,
     descricao: DataTypes.STRING,
     preco: DataTypes.DOUBLE,
-    data_criacao: DataTypes.DATE,
-    data_atualizacao: DataTypes.DATE
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Produto',
+    freezeTableName: true,
   });
   return Produto;
 };
