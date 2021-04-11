@@ -1,9 +1,10 @@
 const database = require('../models')
+const { Op } = require("sequelize");
 
 class CompraController {
     static async findAll(req, res) {
         try{
-            const allBoughts = await database.Compra.findAll()
+            const allBoughts = await database.Compra.findAll({ include: database.Produto })
             return res.status(200).json(allBoughts)
         } catch(error) {
             return res.status(500).json(error.message);
@@ -13,13 +14,24 @@ class CompraController {
     static async createPurchase(req, res) {        
         
         try{
-            const newPurchase = req.body
-            const purchase = await database.Compra.create(newPurchase)
-            const { produtosId } = newPurchase
-            const produtosDeCompra = await purchase.setProdutos(produtosId)
+            let newPurchase = req.body
 
-            return res.status(200).json(purchase)
+            const purchase = await database.Compra.create(newPurchase)
+            const { Produtos } = newPurchase
+            await purchase.setProdutos(Produtos)
+
+            let founds = await database.Compra.findOne(
+                {
+                    where: {
+                        id: purchase.id
+                    },
+                    include: { model: database.Produto }
+                }
+            )   
+        
+            return res.status(200).json(founds)
         } catch (error) {
+            console.log(error.message)
             return res.status(500).json(error.message);
         }
     }
