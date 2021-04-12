@@ -21,6 +21,7 @@ module.exports = {
         type: Sequelize.BIGINT(11),
         allowNull: false,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
         references: { model: 'Compra', key: 'id'}
       },
       createdAt: {

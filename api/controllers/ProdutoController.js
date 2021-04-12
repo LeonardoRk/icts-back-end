@@ -35,6 +35,19 @@ class ProdutoController {
             return res.status(500).json(error.message);
         }
     }
+
+    static async editProduct(req, res) {
+        console.log("editando")
+        try{
+            const { id } = req.params
+            const newInfos = req.body
+            await database.Produto.update(newInfos, {where :{id: Number(id)}})
+            const updatedProduct = await database.Produto.findOne({where: {id: Number(id)}});
+            return res.status(200).send(updatedProduct)
+        }catch(error) {
+            return res.status(500).json(error.message);
+        }
+    }
 }
 
 module.exports = ProdutoController;

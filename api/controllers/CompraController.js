@@ -36,6 +36,32 @@ class CompraController {
         }
     }
 
+    static async  updatePurchase(req, res) {
+        try{
+            let { id } = req.params
+            let newInfos = req.body
+
+            await database.Compra.update(newInfos, { where: {id: Number(id)}})
+            const { Produtos } = newInfos
+            let updated = await  database.Compra.findOne({where: {id: Number(id)}})
+            await updated.setProdutos(Produtos)
+
+            let founds = await database.Compra.findOne(
+                {
+                    where: {
+                        id: id
+                    },
+                    include: { model: database.Produto }
+                }
+            )   
+        
+            return res.status(200).json(founds)
+        } catch(error) {
+            console.log(error.message)
+            return res.status(500).json(error.message);
+        }
+    }
+
     static async deletePurchase(req, res) {
         const { id } = req.params
         try{
